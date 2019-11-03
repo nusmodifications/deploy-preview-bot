@@ -1,10 +1,12 @@
+import { serverless } from '@chadfawcett/probot-serverless-now';
 import { Application } from 'probot';
 import axios from 'axios';
 import stream from 'stream';
 import archiver from 'archiver';
 import Octokit from '@octokit/rest'; // eslint-disable-line import/no-extraneous-dependencies
+import { WebhookPayloadCheckSuiteCheckSuite } from '@octokit/webhooks'; // eslint-disable-line import/no-extraneous-dependencies
 
-import CircleCi from './CircleCi';
+import CircleCi from '../src/CircleCi';
 
 const WEBSITE_JOB_NAME = 'website';
 const NETLIFY_BASE_URL = 'https://api.netlify.com/api/v1';
@@ -48,9 +50,22 @@ function getCommentBody(commitSha: string, deploymentUrl: string): string {
   return `Deployment preview for \`${commitSha}\` ready at <${deploymentUrl}>`;
 }
 
-export = (app: Application) => {
+function isSuccessfulCircleCiBuild(
+  check: WebhookPayloadCheckSuiteCheckSuite
+): boolean {
+  return (
+    check.conclusion === 'success' && Boolean(check.app.name.match(/circleci/i))
+  );
+}
+
+const fn = (app: Application) => {
   app.on('check_suite.completed', async context => {
     const { check_suite } = context.payload;
+
+    if (!isSuccessfulCircleCiBuild(check_suite)) {
+      return;
+    }
+
     const { head_sha, pull_requests } = check_suite;
 
     const builds = await circleCi.getBuilds();
@@ -115,3 +130,5 @@ export = (app: Application) => {
     );
   });
 };
+
+export = serverless(fn);

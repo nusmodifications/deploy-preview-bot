@@ -19,8 +19,8 @@
     "resolveJsonModule": true
   },
   "include": [
-    "src/**/*",
-    "test/**/*.ts"
+    "api/**/*",
+    "src/**/*"
   ],
   "compileOnSave": false
 }

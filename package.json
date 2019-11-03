@@ -13,14 +13,12 @@
     "probot-app"
   ],
   "scripts": {
-    "build": "tsc -p tsconfig.json",
     "dev": "nodemon --exec \"npm start\"",
     "start": "probot run ./lib/index.js",
-    "lint": "eslint ./{src,test}/**/*.ts",
-    "test": "jest",
-    "test:watch": "jest --watch --notify --notifyMode=change --coverage"
+    "lint": "eslint ./{src,api}/**/*.ts"
   },
   "dependencies": {
+    "@chadfawcett/probot-serverless-now": "^1.0.0",
     "archiver": "^3.1.1",
     "axios": "^0.19.0",
     "netlify": "^2.4.8",
@@ -28,8 +26,6 @@
   },
   "devDependencies": {
     "@types/archiver": "^3.0.0",
-    "@types/jest": "^24.0.0",
-    "@types/nock": "^11.1.0",
     "@types/node": "^12.0.0",
     "@typescript-eslint/eslint-plugin": "^2.6.0",
     "@typescript-eslint/parser": "^2.6.0",
@@ -38,25 +34,13 @@
     "eslint-config-prettier": "^6.5.0",
     "eslint-plugin-import": "^2.18.2",
     "eslint-plugin-prettier": "^3.1.1",
-    "jest": "^24.0.0",
-    "nock": "^11.6.0",
     "nodemon": "^1.17.2",
     "prettier": "^1.18.2",
     "smee-client": "^1.0.2",
-    "ts-jest": "^24.0.0",
     "typescript": "^3.3.1"
   },
   "engines": {
     "node": ">= 8.3.0"
-  },
-  "standard": {
-    "parser": "typescript-eslint-parser",
-    "env": [
-      "jest"
-    ],
-    "plugins": [
-      "typescript"
-    ]
   },
   "jest": {
     "testEnvironment": "node"
