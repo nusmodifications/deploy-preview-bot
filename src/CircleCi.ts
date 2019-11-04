@@ -65,6 +65,9 @@ export interface CircleCiOptions {
   project: string;
 }
 
+/**
+ * Very rough CircleCI API wrapper
+ */
 export default class CircleCi {
   constructor(private readonly options: CircleCiOptions) {}
 

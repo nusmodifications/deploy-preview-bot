@@ -3,6 +3,8 @@ import axios from 'axios';
 import stream from 'stream';
 import archiver from 'archiver';
 import { asyncFind, asyncFlatMap } from 'iter-tools';
+
+// Type imports, not declared because we don't want to diverge from the versions used by Probot
 import Octokit from '@octokit/rest'; // eslint-disable-line import/no-extraneous-dependencies
 import { WebhookPayloadCheckSuiteCheckSuite } from '@octokit/webhooks'; // eslint-disable-line import/no-extraneous-dependencies
 
@@ -60,8 +62,10 @@ function isCircleCiBuild(check: WebhookPayloadCheckSuiteCheckSuite): boolean {
   return Boolean(check.app.name.match(/circleci/i));
 }
 
+// export = ApplicationFn compiles into Probot compatible JS export
 export = (app: Application) => {
   axios.interceptors.request.use(config => {
+    // Log all outgoing axios requests
     app.log.trace('Making request', { url: config.url });
     return config;
   });
@@ -126,6 +130,8 @@ export = (app: Application) => {
 
     // Deploy artifacts from CircleCI by uploading a zip archive
     // https://docs.netlify.com/api/get-started/#zip-file-method
+    // We're not using Netlify's OpenAPI wrapper because the wrapper
+    // doesn't seem to support this
     const archive = archiver('zip');
     const request = axios.post(
       `${NETLIFY_BASE_URL}/sites/${SITE_ID}/deploys`,
