@@ -73,17 +73,24 @@ export default class CircleCi {
   }
 
   async getBuilds(): Promise<ShallowBuild[]> {
-    return axios.get(`${URL_PREFIX}/project/${this.optionsUrl}`, {
-      params: {
-        shallow: true,
-        filter: 'completed'
-      }
-    });
+    const response = await axios.get<ShallowBuild[]>(
+      `${URL_PREFIX}/project/${this.optionsUrl}`,
+      {
+        params: {
+          shallow: true,
+          filter: 'completed',
+        },
+      },
+    );
+
+    return response.data;
   }
 
   async getArtifacts(buildNumber: number): Promise<Artifact[]> {
-    return axios.get(
-      `${URL_PREFIX}/project/${this.optionsUrl}/${buildNumber}/articfacts`
+    const response = await axios.get<Artifact[]>(
+      `${URL_PREFIX}/project/${this.optionsUrl}/${buildNumber}/artifacts`,
     );
+
+    return response.data;
   }
 }

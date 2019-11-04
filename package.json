@@ -4,9 +4,9 @@
   "description": "Automatically deploys build artifacts to Netlify ",
   "author": "Zhang Yi Jiang <mediumdeviation@gmail.com>",
   "license": "ISC",
-  "repository": "https://github.com//deploy-preview-bot.git",
-  "homepage": "https://github.com//deploy-preview-bot",
-  "bugs": "https://github.com//deploy-preview-bot/issues",
+  "repository": "https://github.com/nusmodifications/deploy-preview-bot.git",
+  "homepage": "https://github.com/nusmodifications/deploy-preview-bot",
+  "bugs": "https://github.com/nusmodifications/deploy-preview-bot/issues",
   "keywords": [
     "probot",
     "github",
@@ -14,13 +14,14 @@
   ],
   "scripts": {
     "dev": "nodemon --exec \"npm start\"",
-    "start": "probot run ./lib/index.js",
-    "lint": "eslint ./{src,api}/**/*.ts"
+    "start": "probot run ./lib/src/webhook.js",
+    "lint": "eslint ./{src,api}/**/*.ts",
+    "watch": "yarn tsc -w"
   },
   "dependencies": {
-    "@chadfawcett/probot-serverless-now": "^1.0.0",
     "archiver": "^3.1.1",
     "axios": "^0.19.0",
+    "iter-tools": "^6.2.6",
     "netlify": "^2.4.8",
     "probot": "^9.0.1"
   },
@@ -37,12 +38,10 @@
     "nodemon": "^1.17.2",
     "prettier": "^1.18.2",
     "smee-client": "^1.0.2",
+    "ts-node": "^8.4.1",
     "typescript": "^3.3.1"
   },
   "engines": {
     "node": ">= 8.3.0"
-  },
-  "jest": {
-    "testEnvironment": "node"
   }
 }

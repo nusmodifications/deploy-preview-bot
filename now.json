@@ -1,0 +1,11 @@
+{
+  "env": {
+    "APP_ID": "45545",
+    "BOT_USER_ID": "57329235",
+    "WEBHOOK_SECRET": "@webhook_secret",
+    "PRIVATE_KEY": "@private_key",
+    "NETLIFY_TOKEN": "@netlify_token",
+    "NETLIFY_SITE_ID": "67604fb8-ed9b-48e8-b12a-8298bbd835cb",
+    "SENTRY_DSN": "https://e0799d4c1014495ebb651dc2ee249ca2@sentry.io/1806256"
+  }
+}
