@@ -82,25 +82,11 @@ export = (app: Application) => {
     // to go and look for it in all check runs
     let pulls = check_suite.pull_requests.map(pull => pull.number);
     if (pulls.length === 0) {
-      const checkRuns = asyncFlatMap(
-        (response: Octokit.Response<Octokit.ChecksListForRefResponse>) =>
-          response.data.check_runs,
-        context.github.paginate.iterator({
-          url: `/repos/${GITHUB_REPO}/commits/${check_suite.head_branch}/check-suites`,
-          headers: {
-            accept: 'application/vnd.github.antiope-preview+json',
-          },
-        }),
-      );
+      const searchResult = await context.github.search.issuesAndPullRequests({
+        q: `repo:${GITHUB_REPO} type:pr is:open ${check_suite.head_sha}`,
+      });
 
-      const checkSuite = await asyncFind(
-        check => check.pull_requests.length > 0,
-        checkRuns,
-      );
-
-      if (checkSuite != null) {
-        pulls = check_suite.pull_requests.map(pull => pull.number);
-      }
+      pulls = searchResult.data.items.map(item => item.number);
     }
 
     // Only continue if there's a pull request we can comment on

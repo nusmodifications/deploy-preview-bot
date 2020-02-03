@@ -82,6 +82,7 @@ export default class CircleCi {
         params: {
           shallow: true,
           filter: 'completed',
+          limit: 100,
         },
       },
     );
